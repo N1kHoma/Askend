@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Финансовый трекер</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    .box { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Мой Финансовый Трекер</h1>
+
+  <div class="box">
+    <h2>Общий баланс: <span id="balance">$0</span></h2>
+  </div>
+
+  <div class="box">
+    <h2>Цены криптовалют</h2>
+    <ul id="crypto-list"></ul>
+  </div>
+
+  <script>
+    // Пример простого баланса
+    const balance = 1500.25;
+    document.getElementById("balance").textContent = `$${balance}`;
+
+    // Пример запроса к CoinGecko
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("crypto-list");
+        for (let [coin, info] of Object.entries(data)) {
+          const li = document.createElement("li");
+          li.textContent = `${coin.toUpperCase()}: $${info.usd}`;
+          list.appendChild(li);
+        }
+      });
+  </script>
+</body>
+</html>
